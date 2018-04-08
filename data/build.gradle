@@ -1,0 +1,71 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android'
+
+android {
+    def ext = rootProject.extensions.ext
+    compileSdkVersion ext.android.compileSdk
+    defaultConfig {
+        minSdkVersion ext.android.minSdk
+        targetSdkVersion ext.android.targetSdk
+        versionCode ext.application.versionCode
+        versionName ext.android.versionName
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        debug {
+            testCoverageEnabled true
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    flavorDimensions "default"
+    productFlavors {
+        mock {
+            dimension "default"
+        }
+        prod {
+            dimension "default"
+        }
+    }
+    // Remove mockRelease as it's not needed.
+    android.variantFilter { variant ->
+        if (variant.buildType.name == 'release' && variant.getFlavors().get(0).name == 'mock') {
+            variant.setIgnore(true)
+        }
+    }
+}
+
+def API_URL = System.getenv("API_URL") ?: apiUrl
+
+android.buildTypes.each { type ->
+    type.buildConfigField "String", "API_URL", "\"$API_URL\""
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$compiler.kotlin"
+    implementation "io.reactivex.rxjava2:rxjava:$architecture.rxjava"
+
+    // Database
+    implementation "android.arch.persistence.room:runtime:$architecture.room"
+    implementation "android.arch.persistence.room:rxjava2:$architecture.room"
+    kapt "android.arch.persistence.room:compiler:$architecture.room"
+
+    // Networking
+    implementation "com.squareup.okhttp3:logging-interceptor:$networking.okHttp"
+    implementation "com.squareup.retrofit2:retrofit:$networking.retrofit"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$networking.retrofit"
+    implementation "com.squareup.retrofit2:converter-gson:$networking.retrofit"
+    implementation "com.google.code.gson:gson:$networking.gson"
+
+    // Testing
+    testImplementation "junit:junit:$testing.junit"
+    testImplementation "org.mockito:mockito-core:$testing.mockito"
+    testImplementation "com.squareup.okhttp3:mockwebserver:$networking.okHttp"
+
+    androidTestImplementation "com.android.support.test:runner:$testing.runner"
+}

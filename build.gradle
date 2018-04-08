@@ -1,0 +1,77 @@
+buildscript {
+
+    ext.compiler = [
+            java  : JavaVersion.VERSION_1_8,
+            kotlin: '1.2.30'
+    ]
+
+    ext.android = [
+            buildTools: '27.1.0',
+            minSdk    : 16,
+            targetSdk : 27,
+            compileSdk: 27
+    ]
+
+    ext.build = [
+            gradle       : '3.1.0',
+            ciBuild      : System.getenv("CI_BUILD") == "true",
+            // allows for -DpreDex=false to be set
+            preDexEnabled: System.getProperty("preDex", "true") == "true"
+    ]
+
+    ext.application = [
+            id         : 'com.andremion.hostel',
+            versionCode: 1,
+            versionName: "1.0.0"
+    ]
+
+    ext.architecture = [
+            core  : '1.1.1',
+            room  : '1.1.0-beta2',
+            dagger: '2.14.+',
+            rxjava: '2.0.+'
+    ]
+
+    ext.ui = [
+            supportLibrary  : '27.1.0',
+            constraintLayout: '1.0.+',
+            glide           : '4.5.0'
+    ]
+
+    ext.networking = [
+            okHttp  : '3.10.+',
+            retrofit: '2.4.+',
+            gson    : '2.8.2'
+    ]
+
+    ext.testing = [
+            junit   : '4.12',
+            mockito : '2.13.+',
+            runner  : '1.0.1',
+            espresso: '3.0.1',
+            jacoco  : '0.7.9'
+    ]
+
+    repositories {
+        google()
+        jcenter()
+    }
+    dependencies {
+        classpath "com.android.tools.build:gradle:$build.gradle"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$compiler.kotlin"
+        classpath "org.jacoco:org.jacoco.core:$testing.jacoco"
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+apply from: './jacoco.gradle'

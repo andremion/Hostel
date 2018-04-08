@@ -1,0 +1,87 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    def ext = rootProject.extensions.ext
+    compileSdkVersion ext.android.compileSdk
+    defaultConfig {
+        applicationId ext.application.id
+        minSdkVersion ext.android.minSdk
+        targetSdkVersion ext.android.targetSdk
+        versionCode ext.application.versionCode
+        versionName ext.android.versionName
+        testInstrumentationRunner "com.andremion.hostel.app.test.runner.SchedulerAndroidJUnitRunner"
+    }
+    dataBinding.enabled true
+    buildTypes {
+        debug {
+            testCoverageEnabled true
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    testOptions {
+        animationsDisabled true
+    }
+    flavorDimensions "default"
+    productFlavors {
+        mock {
+            dimension "default"
+            applicationIdSuffix = ".mock"
+        }
+        prod {
+            dimension "default"
+        }
+    }
+    // Remove mockRelease as it's not needed.
+    android.variantFilter { variant ->
+        if (variant.buildType.name == 'release' && variant.getFlavors().get(0).name == 'mock') {
+            variant.setIgnore(true)
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(':data')
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$compiler.kotlin"
+    implementation "io.reactivex.rxjava2:rxjava:$architecture.rxjava"
+    implementation "io.reactivex.rxjava2:rxandroid:$architecture.rxjava"
+
+    // Injection
+    kapt "com.google.dagger:dagger-compiler:$architecture.dagger"
+    kapt "com.google.dagger:dagger-android-processor:$architecture.dagger"
+    implementation "com.google.dagger:dagger:$architecture.dagger"
+    implementation "com.google.dagger:dagger-android-support:$architecture.dagger"
+
+    // Architecture
+    implementation "android.arch.lifecycle:extensions:$architecture.core"
+    kapt "android.arch.lifecycle:compiler:$architecture.core"
+
+    // UI
+    implementation "com.android.support:design:$ui.supportLibrary"
+    implementation "com.android.support:recyclerview-v7:$ui.supportLibrary"
+    implementation "com.android.support:cardview-v7:$ui.supportLibrary"
+    implementation "com.android.support.constraint:constraint-layout:$ui.constraintLayout"
+    implementation "com.github.bumptech.glide:glide:$ui.glide"
+
+    // Database
+    implementation "android.arch.persistence.room:runtime:$architecture.room"
+
+    // Networking
+    implementation "com.google.code.gson:gson:$networking.gson"
+
+    // Testing
+    testImplementation "junit:junit:$testing.junit"
+    testImplementation "org.mockito:mockito-core:$testing.mockito"
+
+    androidTestImplementation "com.android.support.test:runner:$testing.runner"
+    androidTestImplementation "com.android.support.test.espresso:espresso-core:$testing.espresso"
+    androidTestImplementation "com.android.support.test.espresso:espresso-contrib:$testing.espresso"
+    androidTestImplementation "com.squareup.okhttp3:mockwebserver:$networking.okHttp"
+}
