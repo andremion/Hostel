@@ -12,6 +12,13 @@ android {
         versionName ext.android.versionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+    aaptOptions {
+        cruncherEnabled !ext.build.ciBuild
+    }
+    dexOptions {
+        // Skip pre-dexing when running on CI or when disabled via -DpreDex=false.
+        preDexLibraries !ext.build.ciBuild && ext.build.preDexEnabled
+    }
     buildTypes {
         debug {
             testCoverageEnabled true
