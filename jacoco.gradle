@@ -42,8 +42,7 @@ FileTree jacocoClassDirectories(Set subprojects) {
 }
 
 task jacocoTestReport(type: JacocoReport,
-        dependsOn: [":data:testMockDebugUnitTest", ":app:testMockDebugUnitTest",
-                    ":data:connectedMockDebugAndroidTest", ":app:connectedMockDebugAndroidTest"]) {
+        dependsOn: [":data:testMockDebugUnitTest", ":app:testMockDebugUnitTest"]) {
     group = 'Reporting'
     description = 'Generate JaCoCo coverage reports'
 
