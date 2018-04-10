@@ -23,6 +23,7 @@ import android.view.View
 import android.widget.ImageView
 import com.andremion.hostel.app.internal.util.fade
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 
 object ViewBindingAdapters {
@@ -56,6 +57,7 @@ object ViewBindingAdapters {
             Glide.with(imageView.context)
                     .load(it)
                     .apply(RequestOptions.noTransformation())
+                    .transition(DrawableTransitionOptions.withCrossFade())
                     .into(imageView)
         }
     }
