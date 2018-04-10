@@ -16,8 +16,12 @@
 
 <resources>
     <string name="app_name">Hostel</string>
+
+    <!--Warning/Error Messages-->
+    <string name="empty_icon" translatable="false">¯\\_(ツ)_/¯</string>
+    <string name="property_list_empty">Sorry, we couldn\'t find any property of this city.\n\nPlease try with another one.</string>
+
+    <!--Property item-->
     <string name="property_caption">Hostel</string>
     <string name="property_featured_caption">\u2605 Featured Hostel</string>
-    <string name="property_price_label">Dorms from</string>
-    <string name="property_featured_price_label">From</string>
 </resources>

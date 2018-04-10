@@ -29,6 +29,8 @@ import com.andremion.hostel.data.local.database.LocalDatabase
 object TestDatabase {
 
     fun newInstance(context: Context): LocalDatabase {
-        return Room.inMemoryDatabaseBuilder(context, LocalDatabase::class.java).build()
+        return Room.inMemoryDatabaseBuilder(context, LocalDatabase::class.java)
+                .allowMainThreadQueries()
+                .build()
     }
 }
