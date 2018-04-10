@@ -19,6 +19,10 @@ package com.andremion.hostel.scheduler
 import io.reactivex.Scheduler
 import io.reactivex.schedulers.Schedulers
 
+/**
+ * [Scheduler]s for async calls.
+ * As we are on data module we just define a default [Scheduler] for IO-bound work.
+ */
 interface AppSchedulers {
 
     val io: Scheduler

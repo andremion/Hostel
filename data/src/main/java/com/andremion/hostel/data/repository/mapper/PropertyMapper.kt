@@ -41,6 +41,7 @@ class PropertyMapper {
                 .map {
                     var image = "${it.prefix}${it.suffix}"
                     if (!image.startsWith("http")) {
+                        // Image loader needs a complete url
                         image = "http://$image"
                     }
                     image
@@ -54,7 +55,12 @@ class PropertyMapper {
                 .map { it.name }
     }
 
-    private fun parsePrice(priceRemote: PriceRemote) = priceRemote.value / 7.55
+    private fun parsePrice(priceRemote: PriceRemote) =
+            // Could use price currency with user currency for conversion.
+            // For now we are considering:
+            //   price currency is Venezuelan Bolivar (VEF)
+            //   user currency is Euro (EUR).
+            priceRemote.value / 7.55
 
     private fun parseRating(ratingRemote: RatingRemote?): Float? {
         return ratingRemote?.let {

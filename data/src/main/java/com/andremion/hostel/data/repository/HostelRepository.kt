@@ -46,6 +46,7 @@ class HostelRepository(
         val local = propertyLocalDataSource.findByCity(city)
                 .filter { !it.isEmpty() }
 
+        // Request the data from remote data source then save into local data source.
         val remote = propertyRemoteDataSource.findByCity(city)
                 .toMaybe()
                 .doOnSuccess {
@@ -56,7 +57,10 @@ class HostelRepository(
                 .doOnSuccess(propertyLocalDataSource::insertAll)
 
         val concat = Maybe.just(refresh)
+                // Check if we need to refresh local data
                 .doOnSuccess { if (it) propertyLocalDataSource.deleteByCity(city) }
+                // Fetch from local data source if there is any data
+                // or from remote to cache data
                 .flatMap {
                     Maybe.concat(local, remote)
                             .firstElement()
