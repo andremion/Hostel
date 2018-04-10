@@ -16,6 +16,7 @@
 
 package com.andremion.hostel.app.home
 
+import android.content.Intent
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.assertion.ViewAssertions.matches
 import android.support.test.espresso.contrib.RecyclerViewActions
@@ -28,7 +29,8 @@ import com.andremion.hostel.app.internal.test.withTitle
 import com.andremion.hostel.app.property.list.adapter.PropertyListAdapter
 import com.andremion.hostel.data.PropertiesByCityJson
 import okhttp3.mockwebserver.MockResponse
-import org.hamcrest.Matchers.any
+import org.hamcrest.Matchers.allOf
+import org.hamcrest.Matchers.containsString
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -43,24 +45,24 @@ class HomeActivityTest {
 
     @Rule
     @JvmField
-    val activityRule: ActivityTestRule<*> = ActivityTestRule<HomeActivity>(HomeActivity::class.java)
+    val activityRule: ActivityTestRule<*> = ActivityTestRule<HomeActivity>(HomeActivity::class.java, true, false)
 
     @Test
     fun shouldShowPropertiesByCitySortedByFeaturedDescendingAndRatingDescending() {
 
         // Given
         val response = MockResponse().setBody(PropertiesByCityJson.getJson())
-        testRule.server.enqueue(response)
-
         val propertiesByCity = PropertiesByCityJson.getObjects()
         val properties = propertiesByCity.properties
                 // For now, just test the first three items as we have an issue
                 // scrolling RecyclerView inside CollapsingToolbarLayout with Espresso
                 .subList(0, 1)
 
-        properties.forEachIndexed { position, property ->
+        // When
+        testRule.server.enqueue(response)
+        activityRule.launchActivity(Intent())
 
-            // When
+        properties.forEachIndexed { position, property ->
             onView(withId(R.id.property_list))
                     .perform(RecyclerViewActions.scrollToPosition<PropertyListAdapter.ViewHolder>(position))
 
@@ -73,7 +75,7 @@ class HomeActivityTest {
                     .check(matches(isDisplayed()))
         }
 
-        // City
+        // City assertion
         onView(withTitle(propertiesByCity.location.city.name))
                 .check(matches(isDisplayed()))
     }
@@ -87,9 +89,30 @@ class HomeActivityTest {
 
         // When
         testRule.server.enqueue(response)
+        activityRule.launchActivity(Intent())
 
         // Then
-        onView(withId(R.id.snackbar_text)).check(matches(withText(any(String::class.java))))
+        onView(allOf(withId(R.id.snackbar_text), withText(containsString("HTTP 502"))))
+                .check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun whenGetAnEmptyList_ShouldShowAnyInfo() {
+
+        // Given
+        val response = MockResponse().setBody(PropertiesByCityJson.getEmptyJson())
+
+        // When
+        testRule.server.enqueue(response)
+        activityRule.launchActivity(Intent())
+
+        // Then
+        onView(withId(R.id.view_empty))
+                .check(matches(isDisplayed()))
+        onView(withText(R.string.empty_icon))
+                .check(matches(isDisplayed()))
+        onView(withText(R.string.property_list_empty))
+                .check(matches(isDisplayed()))
     }
 
     private fun ratingString(overallRating: Int?): String? {

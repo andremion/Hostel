@@ -21,18 +21,11 @@ import android.support.design.widget.BaseTransientBottomBar
 import android.support.design.widget.Snackbar
 import android.view.View
 import android.widget.ImageView
-import com.andremion.hostel.app.internal.util.fade
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 
 object ViewBindingAdapters {
-
-    @JvmStatic
-    @BindingAdapter("fadeView")
-    fun fadeView(view: View, show: Boolean) {
-        view.fade(show)
-    }
 
     @JvmStatic
     @BindingAdapter("visible")
