@@ -23,45 +23,38 @@ import android.support.test.espresso.matcher.ViewMatchers.*
 import android.support.test.rule.ActivityTestRule
 import android.support.test.runner.AndroidJUnit4
 import com.andremion.hostel.R
+import com.andremion.hostel.app.internal.test.DaggerTestRule
+import com.andremion.hostel.app.internal.test.withTitle
 import com.andremion.hostel.app.property.list.adapter.PropertyListAdapter
 import com.andremion.hostel.data.PropertiesByCityJson
 import okhttp3.mockwebserver.MockResponse
-import okhttp3.mockwebserver.MockWebServer
-import org.junit.After
-import org.junit.Before
+import org.hamcrest.Matchers.any
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.net.HttpURLConnection
 
 @RunWith(AndroidJUnit4::class)
 class HomeActivityTest {
 
     @Rule
     @JvmField
+    val testRule = DaggerTestRule()
+
+    @Rule
+    @JvmField
     val activityRule: ActivityTestRule<*> = ActivityTestRule<HomeActivity>(HomeActivity::class.java)
 
-    private lateinit var mockWebServer: MockWebServer
-
-    @Before
-    fun startServer() {
-        mockWebServer = MockWebServer()
-    }
-
-    @After
-    fun stopServer() {
-        mockWebServer.shutdown()
-    }
-
     @Test
-    fun shouldShowPropertiesByCitySortedByFeaturedAndRatingDescending() {
+    fun shouldShowPropertiesByCitySortedByFeaturedDescendingAndRatingDescending() {
 
         // Given
         val response = MockResponse().setBody(PropertiesByCityJson.getJson())
-        mockWebServer.enqueue(response)
+        testRule.server.enqueue(response)
 
         val propertiesByCity = PropertiesByCityJson.getObjects()
         val properties = propertiesByCity.properties
-                // Just test the first three now because we have an issue
+                // For now, just test the first three items as we have an issue
                 // scrolling RecyclerView inside CollapsingToolbarLayout with Espresso
                 .subList(0, 1)
 
@@ -79,6 +72,24 @@ class HomeActivityTest {
             onView(withText(priceString(property.lowestPricePerNight.value)))
                     .check(matches(isDisplayed()))
         }
+
+        // City
+        onView(withTitle(propertiesByCity.location.city.name))
+                .check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun whenGetAnError_ShouldShowASnackbar() {
+
+        // Given
+        val response = MockResponse()
+                .setResponseCode(HttpURLConnection.HTTP_BAD_GATEWAY)
+
+        // When
+        testRule.server.enqueue(response)
+
+        // Then
+        onView(withId(R.id.snackbar_text)).check(matches(withText(any(String::class.java))))
     }
 
     private fun ratingString(overallRating: Int?): String? {

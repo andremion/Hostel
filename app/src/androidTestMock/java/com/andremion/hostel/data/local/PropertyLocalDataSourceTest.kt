@@ -4,7 +4,7 @@ import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
 import com.andremion.hostel.data.PropertiesMock
 import com.andremion.hostel.data.local.database.LocalDatabase
-import com.andremion.hostel.data.local.database.memory.MemoryDatabase
+import com.andremion.hostel.data.local.database.test.TestDatabase
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -18,7 +18,7 @@ class PropertyLocalDataSourceTest {
 
     @Before
     fun setUp() {
-        database = MemoryDatabase.newInstance(InstrumentationRegistry.getContext())
+        database = TestDatabase.newInstance(InstrumentationRegistry.getContext())
         propertyLocalDataSource = PropertyLocalDataSource(database.propertyDao())
     }
 
