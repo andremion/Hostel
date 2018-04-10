@@ -57,7 +57,7 @@ class PropertyRemoteDataSourceTest {
 
         // Given
 
-        val city = 1
+        val city = 1L
         val propertiesByCity = PropertiesByCityJson.getObjects()
         val response = MockResponse().setBody(PropertiesByCityJson.getJson())
         mockWebServer.enqueue(response)

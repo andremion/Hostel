@@ -32,7 +32,7 @@ class PropertyLocalDataSourceTest {
 
         // Given
 
-        val city = 1
+        val city = 1L
         val properties = PropertiesMock.getLocalProperties(city)
 
         // When
@@ -55,7 +55,7 @@ class PropertyLocalDataSourceTest {
 
         // Given
 
-        val city = 1
+        val city = 1L
         val properties = PropertiesMock.getLocalProperties(city)
         propertyLocalDataSource.insertAll(properties)
 
