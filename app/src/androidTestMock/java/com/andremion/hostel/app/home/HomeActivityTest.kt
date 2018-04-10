@@ -28,6 +28,7 @@ import com.andremion.hostel.app.internal.test.withTitle
 import com.andremion.hostel.app.property.list.adapter.PropertyListAdapter
 import com.andremion.hostel.data.PropertiesByCityJson
 import okhttp3.mockwebserver.MockResponse
+import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.any
 import org.junit.Rule
 import org.junit.Test
@@ -89,7 +90,27 @@ class HomeActivityTest {
         testRule.server.enqueue(response)
 
         // Then
-        onView(withId(R.id.snackbar_text)).check(matches(withText(any(String::class.java))))
+        onView(allOf(withId(R.id.snackbar_text), withText(any(String::class.java))))
+                .check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun whenGetAnEmptyList_ShouldShowAnyInfo() {
+
+        // Given
+        val response = MockResponse().setBody(PropertiesByCityJson.getEmptyJson())
+        testRule.server.enqueue(response)
+
+        // When
+        testRule.server.enqueue(response)
+
+        // Then
+        onView(withId(R.id.view_empty))
+                .check(matches(isDisplayed()))
+        onView(withText(R.string.empty_icon))
+                .check(matches(isDisplayed()))
+        onView(withText(R.string.property_list_empty))
+                .check(matches(isDisplayed()))
     }
 
     private fun ratingString(overallRating: Int?): String? {
