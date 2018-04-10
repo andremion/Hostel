@@ -94,6 +94,8 @@
                 app:visible="@{!property.rating.isEmpty()}"
                 tools:text="9.6" />
 
+            <!--We decided to show 'facilities' instead 'overview' if we have one-->
+
             <TextView
                 android:id="@+id/text_facilities"
                 android:layout_width="0dp"
@@ -102,7 +104,7 @@
                 android:layout_marginStart="@dimen/text_margin"
                 android:ellipsize="end"
                 android:maxLines="2"
-                android:text="@{property.facilities}"
+                android:text="@{property.facilities.isEmpty() ? property.overview : property.facilities}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                 android:textColor="@color/colorAccent"
                 app:layout_constraintBottom_toBottomOf="@+id/text_rating"
