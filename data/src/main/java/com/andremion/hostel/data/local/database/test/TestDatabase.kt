@@ -14,13 +14,19 @@
  * limitations under the License.
  */
 
-package com.andremion.hostel.data.local.database.memory
+package com.andremion.hostel.data.local.database.test
 
 import android.arch.persistence.room.Room
 import android.content.Context
+import android.support.annotation.VisibleForTesting
 import com.andremion.hostel.data.local.database.LocalDatabase
 
-object MemoryDatabase {
+/**
+ * Class used just for testing.
+ * It is created here because Room doesn't resolve this well while running instrumentation tests.
+ */
+@VisibleForTesting
+object TestDatabase {
 
     fun newInstance(context: Context): LocalDatabase {
         return Room.inMemoryDatabaseBuilder(context, LocalDatabase::class.java).build()

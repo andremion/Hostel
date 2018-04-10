@@ -14,19 +14,25 @@
  * limitations under the License.
  */
 
-package com.andremion.hostel.data.remote
+package com.andremion.hostel.app.internal.injection.module
 
-import com.andremion.hostel.data.remote.api.HostelService
-import com.andremion.hostel.data.remote.model.PropertiesByCity
-import io.reactivex.Single
+import android.app.Application
+import android.content.Context
+import com.andremion.hostel.scheduler.AppSchedulers
+import com.andremion.hostel.scheduler.TestAppSchedulers
+import dagger.Module
+import dagger.Provides
+import javax.inject.Singleton
 
-class PropertyRemoteDataSource(private val hostelService: HostelService) {
+@Module
+internal class TestAppModule {
 
-    /**
-     * Real API will fetch by city
-     */
-    @Suppress("UNUSED_PARAMETER")
-    fun findByCity(city: Int): Single<PropertiesByCity> {
-        return hostelService.findPropertiesByCity()
-    }
+    @Provides
+    @Singleton
+    internal fun providesContext(application: Application): Context = application
+
+    @Provides
+    @Singleton
+    internal fun provideSchedulers(): AppSchedulers = TestAppSchedulers()
+
 }

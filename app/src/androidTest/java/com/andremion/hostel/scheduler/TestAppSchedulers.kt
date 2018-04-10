@@ -14,19 +14,21 @@
  * limitations under the License.
  */
 
-package com.andremion.hostel.data.remote
+package com.andremion.hostel.scheduler
 
-import com.andremion.hostel.data.remote.api.HostelService
-import com.andremion.hostel.data.remote.model.PropertiesByCity
-import io.reactivex.Single
+import android.os.AsyncTask
+import io.reactivex.Scheduler
+import io.reactivex.schedulers.Schedulers
 
-class PropertyRemoteDataSource(private val hostelService: HostelService) {
+/**
+ * [Scheduler]s used for instrumentation testings
+ * Espresso is aware of AsyncTask executors, and will wait for them to complete before proceeding.
+ */
+class TestAppSchedulers : AppSchedulers {
 
-    /**
-     * Real API will fetch by city
-     */
-    @Suppress("UNUSED_PARAMETER")
-    fun findByCity(city: Int): Single<PropertiesByCity> {
-        return hostelService.findPropertiesByCity()
-    }
+    override val io: Scheduler
+        get() = Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR)
+
+    override val main: Scheduler
+        get() = Schedulers.from(AsyncTask.THREAD_POOL_EXECUTOR)
 }

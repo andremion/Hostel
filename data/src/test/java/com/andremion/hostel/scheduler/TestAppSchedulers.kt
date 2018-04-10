@@ -19,6 +19,9 @@ package com.andremion.hostel.scheduler
 import io.reactivex.Scheduler
 import io.reactivex.schedulers.Schedulers
 
+/**
+ * [Scheduler]s used for unit testings
+ */
 class TestAppSchedulers : AppSchedulers {
 
     override val io: Scheduler

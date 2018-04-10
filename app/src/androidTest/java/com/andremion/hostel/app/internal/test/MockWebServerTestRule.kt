@@ -14,19 +14,27 @@
  * limitations under the License.
  */
 
-package com.andremion.hostel.data.remote
+package com.andremion.hostel.app.internal.test
 
-import com.andremion.hostel.data.remote.api.HostelService
-import com.andremion.hostel.data.remote.model.PropertiesByCity
-import io.reactivex.Single
+import okhttp3.mockwebserver.MockWebServer
+import org.junit.rules.ExternalResource
 
-class PropertyRemoteDataSource(private val hostelService: HostelService) {
+/**
+ * [ExternalResource] used to initialize a [MockWebServer] and shut it down
+ */
+open class MockWebServerTestRule : ExternalResource() {
 
-    /**
-     * Real API will fetch by city
-     */
-    @Suppress("UNUSED_PARAMETER")
-    fun findByCity(city: Int): Single<PropertiesByCity> {
-        return hostelService.findPropertiesByCity()
+    lateinit var baseUrl: String
+        private set
+
+    val server by lazy { MockWebServer() }
+
+    override fun before() {
+        baseUrl = server.url("/").toString() // This will start the server
     }
+
+    override fun after() {
+        server.shutdown()
+    }
+
 }

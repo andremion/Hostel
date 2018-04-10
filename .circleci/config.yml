@@ -137,10 +137,10 @@ jobs:
       - *decode_gcloud_key
       - run:
           name: Set Google Cloud target project
-          command: gcloud config set project theatre-8b64a
+          command: gcloud config set project cloud-services-2018
       - run:
           name: Authenticate with Google Cloud
-          command: gcloud auth activate-service-account firebase-adminsdk-b1xip@theatre-8b64a.iam.gserviceaccount.com --key-file ${HOME}/client-secret.json
+          command: gcloud auth activate-service-account firebase-adminsdk-2ply4@cloud-services-2018.iam.gserviceaccount.com --key-file ${HOME}/client-secret.json
       - run:
           name: Run instrumented test on Firebase Test Lab
           command: gcloud firebase test android run --no-auto-google-login --type instrumentation --app app/build/outputs/apk/mock/debug/app-mock-debug.apk --test app/build/outputs/apk/androidTest/mock/debug/app-mock-debug-androidTest.apk --device model=Nexus6P,version=27,locale=en_US,orientation=portrait --environment-variables coverage=true,coverageFile=/sdcard/coverage.ec --directories-to-pull=/sdcard --timeout 20m
@@ -149,7 +149,7 @@ jobs:
           command: mkdir firebase
       - run:
           name: Download instrumented test results from Firebase Test Lab
-          command: gsutil -m cp -r -U "`gsutil ls gs://test-lab-7nv0x51in57u6-kn0mnshhmuuuu | tail -1`*" /root/workspace/firebase/
+          command: gsutil -m cp -r -U "`gsutil ls gs://test-lab-81v2krsj9t46m-nahi065vst6tc | tail -1`*" /root/workspace/firebase/
       - *persist_firebase_workspace
       - store_artifacts:
           path: firebase/
