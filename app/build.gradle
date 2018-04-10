@@ -12,7 +12,7 @@ android {
         targetSdkVersion ext.android.targetSdk
         versionCode ext.application.versionCode
         versionName ext.android.versionName
-        testInstrumentationRunner "com.andremion.hostel.app.test.runner.SchedulerAndroidJUnitRunner"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     dataBinding.enabled true
     aaptOptions {
@@ -84,6 +84,7 @@ dependencies {
     implementation "com.google.code.gson:gson:$networking.gson"
 
     // Testing
+
     testImplementation "junit:junit:$testing.junit"
     testImplementation "org.mockito:mockito-core:$testing.mockito"
 
@@ -91,4 +92,7 @@ dependencies {
     androidTestImplementation "com.android.support.test.espresso:espresso-core:$testing.espresso"
     androidTestImplementation "com.android.support.test.espresso:espresso-contrib:$testing.espresso"
     androidTestImplementation "com.squareup.okhttp3:mockwebserver:$networking.okHttp"
+
+    kaptAndroidTest "com.google.dagger:dagger-compiler:$architecture.dagger"
+    kaptAndroidTest "com.google.dagger:dagger-android-processor:$architecture.dagger"
 }
