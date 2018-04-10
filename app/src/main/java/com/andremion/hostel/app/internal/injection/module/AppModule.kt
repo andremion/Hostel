@@ -30,7 +30,7 @@ internal class AppModule {
 
     @Provides
     @Singleton
-    internal fun providesContext(application: DaggerApplication): Context = application.applicationContext
+    internal fun providesContext(application: DaggerApplication): Context = application
 
     @Provides
     @Singleton

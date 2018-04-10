@@ -8,6 +8,8 @@
 [![CircleCI](https://circleci.com/gh/andremion/Hostel.svg?style=svg)](https://circleci.com/gh/andremion/Hostel)
 [![codecov](https://codecov.io/gh/andremion/Hostel/graph/badge.svg)](https://codecov.io/gh/andremion/Hostel)
 
+</br>
+
 ## Structure
 
 This project has two Android modules:
@@ -27,7 +29,7 @@ The repository exposes only reactive [entities].
 
 The local data source saves data into database.
 The [local] data source has its own models used internally as well as the [remote] data source has its own.
-The local data source uses database that saves data in [disk] while in testings is used a database that saves in [memory].   
+The local data source uses database that saves data in [disk] while in testings is used a database that saves in [test].   
 
 ## Libraries and tools used
 
@@ -80,6 +82,10 @@ The Room persistence library provides an abstraction layer over SQLite to allow 
 
 * [Mockito](https://github.com/mockito/mockito)
 Tasty mocking framework for unit tests in Java.
+* [Espresso](https://developer.android.com/training/testing/espresso/index.html)
+Write concise, beautiful, and reliable Android UI tests.
+* [MockWebServer](https://github.com/square/okhttp/tree/master/mockwebserver)
+A scriptable web server for testing HTTP clients.
 
 ## License
 
@@ -104,5 +110,5 @@ Tasty mocking framework for unit tests in Java.
 [repository]: data/src/main/java/com/andremion/hostel/data/repository "Repository"
 [local]: data/src/main/java/com/andremion/hostel/data/local "Local data source"
 [disk]: data/src/main/java/com/andremion/hostel/data/local/database/disk "Disk database"
-[memory]: data/src/main/java/com/andremion/hostel/data/local/database/memory "Memory database"
+[test]: data/src/main/java/com/andremion/hostel/data/local/database/test "Test database"
 [remote]: data/src/main/java/com/andremion/hostel/data/remote "Remote data source"
