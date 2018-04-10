@@ -35,13 +35,13 @@ class HostelRepository(
         private val cityMapper: CityMapper,
         private val propertyMapper: PropertyMapper) {
 
-    fun getById(id: Int): Flowable<City> {
+    fun getById(id: Long): Flowable<City> {
         return cityLocalDataSource.getById(id)
                 .map(cityMapper::toEntity)
                 .subscribeOn(appSchedulers.io)
     }
 
-    fun findByCity(city: Int, refresh: Boolean = false): Maybe<List<Property>> {
+    fun findByCity(city: Long, refresh: Boolean = false): Maybe<List<Property>> {
 
         val local = propertyLocalDataSource.findByCity(city)
                 .filter { !it.isEmpty() }

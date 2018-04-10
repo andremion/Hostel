@@ -17,6 +17,6 @@
 package com.andremion.hostel.data.remote.model
 
 data class CityRemote(
-        var id: Int,
+        var id: Long,
         var name: String,
         var country: String)

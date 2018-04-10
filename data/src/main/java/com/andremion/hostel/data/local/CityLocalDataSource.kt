@@ -22,7 +22,7 @@ import io.reactivex.Flowable
 
 class CityLocalDataSource(private val cityDao: CityDao) {
 
-    fun getById(id: Int): Flowable<CityLocal> = cityDao.getById(id)
+    fun getById(id: Long): Flowable<CityLocal> = cityDao.getById(id)
 
     fun insert(cityLocal: CityLocal) = cityDao.insert(cityLocal)
 }

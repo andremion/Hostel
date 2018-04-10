@@ -27,7 +27,7 @@ import io.reactivex.Flowable
 interface CityDao {
 
     @Query("SELECT * FROM City WHERE id = :id")
-    fun getById(id: Int): Flowable<CityLocal>
+    fun getById(id: Long): Flowable<CityLocal>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(city: CityLocal)

@@ -22,9 +22,9 @@ import io.reactivex.Maybe
 
 class PropertyLocalDataSource(private val propertyDao: PropertyDao) {
 
-    fun findByCity(city: Int): Maybe<List<PropertyLocal>> = propertyDao.findByCity(city)
+    fun findByCity(city: Long): Maybe<List<PropertyLocal>> = propertyDao.findByCity(city)
 
-    fun deleteByCity(city: Int) = propertyDao.deleteByCity(city)
+    fun deleteByCity(city: Long) = propertyDao.deleteByCity(city)
 
     fun insertAll(properties: List<PropertyLocal>) = propertyDao.insertAll(*properties.toTypedArray())
 }

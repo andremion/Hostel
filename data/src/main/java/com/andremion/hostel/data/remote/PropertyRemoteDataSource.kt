@@ -26,7 +26,7 @@ class PropertyRemoteDataSource(private val hostelService: HostelService) {
      * Real API will fetch by city
      */
     @Suppress("UNUSED_PARAMETER")
-    fun findByCity(city: Int): Single<PropertiesByCity> {
+    fun findByCity(city: Long): Single<PropertiesByCity> {
         return hostelService.findPropertiesByCity()
     }
 }

@@ -28,7 +28,7 @@ class CityViewModel(
 
     val data = ObservableField<City>()
 
-    fun loadCity(city: Int) {
+    fun loadCity(city: Long) {
         addDisposable(hostelRepository.getById(city)
                 .observeOn(appSchedulers.main)
                 .subscribe(data::set))

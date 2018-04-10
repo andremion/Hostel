@@ -21,7 +21,7 @@ import android.arch.persistence.room.PrimaryKey
 
 @Entity(tableName = "City")
 data class CityLocal(
-        @PrimaryKey var id: Int,
+        @PrimaryKey var id: Long,
         var name: String,
         var image: String,
         var country: String

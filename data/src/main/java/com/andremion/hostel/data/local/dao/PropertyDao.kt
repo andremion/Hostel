@@ -27,11 +27,11 @@ import io.reactivex.Maybe
 interface PropertyDao {
 
     @Query("SELECT * FROM Property WHERE city = :city ORDER BY featured DESC, rating DESC")
-    fun findByCity(city: Int): Maybe<List<PropertyLocal>>
+    fun findByCity(city: Long): Maybe<List<PropertyLocal>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(vararg properties: PropertyLocal)
 
     @Query("DELETE FROM Property WHERE city = :city")
-    fun deleteByCity(city: Int)
+    fun deleteByCity(city: Long)
 }

@@ -21,8 +21,8 @@ import android.arch.persistence.room.PrimaryKey
 
 @Entity(tableName = "Property")
 data class PropertyLocal(
-        @PrimaryKey var id: Int,
-        var city: Int,
+        @PrimaryKey var id: Long,
+        var city: Long,
         var name: String,
         var featured: Boolean,
         var images: List<String>,

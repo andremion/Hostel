@@ -17,7 +17,7 @@
 package com.andremion.hostel.data.remote.model
 
 data class PropertyRemote(
-        var id: Int,
+        var id: Long,
         var name: String,
         var isFeatured: Boolean,
         var images: List<ImageRemote>,

@@ -35,16 +35,16 @@ class PropertyListViewModel(
     val empty = ObservableBoolean()
     val error = ObservableField<String>()
 
-    private var city = 0
+    private var city = 0L
 
-    fun loadPropertyList(city: Int, refresh: Boolean = false) {
+    fun loadPropertyList(city: Long, refresh: Boolean = false) {
         this.city = city
         addDisposable(getAll(city, refresh))
     }
 
     fun refresh() = loadPropertyList(city, true)
 
-    private fun getAll(city: Int, refresh: Boolean): Disposable {
+    private fun getAll(city: Long, refresh: Boolean): Disposable {
         return hostelRepository.findByCity(city, refresh)
                 .observeOn(appSchedulers.main)
                 .subscribeWith(object : DisposableMaybeObserver<List<Property>>() {

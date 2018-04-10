@@ -7,12 +7,12 @@ import com.andremion.hostel.data.remote.model.*
 
 object PropertiesMock {
 
-    fun getProperties(city: Int): List<Property> {
-        return (1..2).map {
+    fun getProperties(city: Long): List<Property> {
+        return (1L..2L).map {
             Property(id = it,
                     city = city,
                     name = "name$it",
-                    featured = it % 2 == 0,
+                    featured = it % 2L == 0L,
                     image = (1..5).map { "http://image$it.jpg" }.first(),
                     overview = "overview$it",
                     facilities = (1..5).joinToString(", ") { "facility$it" },
@@ -24,18 +24,18 @@ object PropertiesMock {
         )
     }
 
-    fun getLocalCity(id: Int): CityLocal {
+    fun getLocalCity(id: Long): CityLocal {
         return CityLocal(id = id, name = "name",
                 image = "https://ucd.hwstatic.com/hw/location-images/city/london_s.jpg",
                 country = "country")
     }
 
-    fun getLocalProperties(city: Int): List<PropertyLocal> {
-        return (1..2).map {
+    fun getLocalProperties(city: Long): List<PropertyLocal> {
+        return (1L..2L).map {
             PropertyLocal(id = it,
                     city = city,
                     name = "name$it",
-                    featured = it % 2 == 0,
+                    featured = it % 2L == 0L,
                     images = (1..5).map { "http://image$it.jpg" },
                     overview = "overview$it",
                     facilities = (1..5).map { "facility$it" },
@@ -47,20 +47,20 @@ object PropertiesMock {
         )
     }
 
-    fun getPropertiesByCity(cityId: Int): PropertiesByCity {
+    fun getPropertiesByCity(cityId: Long): PropertiesByCity {
         val properties = getRemoteProperties()
         val city = getRemoteCity(cityId)
         val location = LocationRemote(city)
         return PropertiesByCity(properties, location)
     }
 
-    private fun getRemoteCity(id: Int): CityRemote {
+    private fun getRemoteCity(id: Long): CityRemote {
         return CityRemote(id = id, name = "name", country = "country")
     }
 
     private fun getRemoteProperties(): List<PropertyRemote> {
         return (1..2).map {
-            PropertyRemote(id = it,
+            PropertyRemote(id = it.toLong(),
                     name = "name$it",
                     isFeatured = it % 2 == 0,
                     images = (1..5).map { ImageRemote("image$it", ".jpg") },

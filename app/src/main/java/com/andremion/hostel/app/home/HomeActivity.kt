@@ -32,7 +32,7 @@ class HomeActivity : DaggerAppCompatActivity() {
 
     companion object {
         // FIXME: Temporary city
-        const val CITY = 3
+        const val CITY = 3L
     }
 
     @Inject

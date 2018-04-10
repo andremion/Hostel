@@ -22,9 +22,9 @@ import com.andremion.hostel.data.remote.model.*
 
 class PropertyMapper {
 
-    fun toLocalModel(city: Int, items: List<PropertyRemote>) = items.map { toLocalModel(city, it) }
+    fun toLocalModel(city: Long, items: List<PropertyRemote>) = items.map { toLocalModel(city, it) }
 
-    private fun toLocalModel(city: Int, propertyRemote: PropertyRemote): PropertyLocal {
+    private fun toLocalModel(city: Long, propertyRemote: PropertyRemote): PropertyLocal {
         return PropertyLocal(propertyRemote.id,
                 city,
                 propertyRemote.name,

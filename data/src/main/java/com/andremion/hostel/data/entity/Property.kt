@@ -17,8 +17,8 @@
 package com.andremion.hostel.data.entity
 
 data class Property(
-        var id: Int,
-        var city: Int,
+        var id: Long,
+        var city: Long,
         var name: String,
         var featured: Boolean,
         var image: String,
