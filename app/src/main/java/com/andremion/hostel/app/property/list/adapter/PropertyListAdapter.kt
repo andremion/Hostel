@@ -23,12 +23,26 @@ import android.support.v7.recyclerview.extensions.ListAdapter
 import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import com.andremion.hostel.BR
 import com.andremion.hostel.R
 import com.andremion.hostel.data.entity.Property
 
-class PropertyListAdapter : ListAdapter<Property, PropertyListAdapter.ViewHolder>(diffCallback) {
+class PropertyListAdapter(private val callback: Callback? = null) : ListAdapter<Property, PropertyListAdapter.ViewHolder>(diffCallback) {
+
+    interface Callback {
+        fun onItemClick(view: View, id: Long)
+    }
+
+    init {
+        setHasStableIds(true)
+    }
+
+    override fun getItemId(position: Int): Long {
+        val item = getItem(position)
+        return item?.id ?: super.getItemId(position)
+    }
 
     override fun getItemViewType(position: Int): Int {
         val item = getItem(position)
@@ -40,7 +54,7 @@ class PropertyListAdapter : ListAdapter<Property, PropertyListAdapter.ViewHolder
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder.create(parent.context, viewType, parent)
+        return ViewHolder.create(parent.context, viewType, parent, callback)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -48,13 +62,17 @@ class PropertyListAdapter : ListAdapter<Property, PropertyListAdapter.ViewHolder
         item?.let(holder::bindTo)
     }
 
-    class ViewHolder(private val binding: ViewDataBinding) : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(private val binding: ViewDataBinding, private val callback: Callback?) : RecyclerView.ViewHolder(binding.root) {
+
+        init {
+            itemView.setOnClickListener { callback?.onItemClick(it, itemId) }
+        }
 
         companion object {
-            fun create(context: Context, layout: Int, parent: ViewGroup): ViewHolder {
+            fun create(context: Context, layout: Int, parent: ViewGroup, callback: Callback?): ViewHolder {
                 val inflater = LayoutInflater.from(context)
                 val binding: ViewDataBinding = DataBindingUtil.inflate(inflater, layout, parent, false)
-                return ViewHolder(binding)
+                return ViewHolder(binding, callback)
             }
         }
 

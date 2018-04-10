@@ -26,14 +26,14 @@ import com.andremion.hostel.data.entity.Property
 object ViewBindingAdapters {
 
     @JvmStatic
-    @BindingAdapter("propertyListAdapter")
-    fun setReviewAdapter(recyclerView: RecyclerView, items: List<Property>?) {
+    @BindingAdapter("propertyListAdapter", "propertyCallback", requireAll = false)
+    fun setPropertyAdapter(recyclerView: RecyclerView, items: List<Property>?, callback: PropertyListAdapter.Callback?) {
         val adapter: PropertyListAdapter
         if (recyclerView.adapter == null) {
 
             setupRecyclerView(recyclerView)
 
-            adapter = PropertyListAdapter()
+            adapter = PropertyListAdapter(callback)
             recyclerView.adapter = adapter
         } else {
             adapter = recyclerView.adapter as PropertyListAdapter

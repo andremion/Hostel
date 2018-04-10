@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2018. André Mion
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,6 +24,10 @@
             name="viewModel"
             type="com.andremion.hostel.app.property.list.PropertyListViewModel" />
 
+        <variable
+            name="callback"
+            type="com.andremion.hostel.app.property.list.adapter.PropertyListAdapter.Callback" />
+
     </data>
 
     <android.support.v4.widget.SwipeRefreshLayout
@@ -40,6 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layoutManager="android.support.v7.widget.GridLayoutManager"
+            app:propertyCallback="@{callback}"
             app:propertyListAdapter="@{viewModel.data}"
             tools:listitem="@layout/fragment_property_list_item" />
 

@@ -24,21 +24,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.andremion.hostel.R
+import com.andremion.hostel.app.internal.databinding.ViewBindingAdapters
 import com.andremion.hostel.app.internal.util.lazyThreadSafetyNone
+import com.andremion.hostel.app.property.list.adapter.PropertyListAdapter
 import com.andremion.hostel.databinding.FragmentPropertyListBinding
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 
-class PropertyListFragment : DaggerFragment() {
+class PropertyListFragment : DaggerFragment(), PropertyListAdapter.Callback {
 
     companion object {
 
         private const val ARG_CITY = "city"
 
-        fun newInstance(type: Int): PropertyListFragment {
+        fun newInstance(city: Long): PropertyListFragment {
             val fragment = PropertyListFragment()
             val args = Bundle()
-            args.putInt(ARG_CITY, type)
+            args.putLong(ARG_CITY, city)
             fragment.arguments = args
             return fragment
         }
@@ -56,13 +58,19 @@ class PropertyListFragment : DaggerFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binder = DataBindingUtil.inflate(inflater, R.layout.fragment_property_list, container, false)
         binder.viewModel = viewModel
+        binder.callback = this
         return binder.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val eventType = arguments?.getInt(ARG_CITY)!!
-        viewModel?.loadPropertyList(eventType)
+        val city = arguments?.getLong(ARG_CITY)!!
+        viewModel?.loadPropertyList(city)
+    }
+
+    override fun onItemClick(view: View, id: Long) {
+        // TODO: For now we don't have a property detail screen
+        ViewBindingAdapters.showLongMessage(view, "Property detail screen will be ready soon…")
     }
 
 }
