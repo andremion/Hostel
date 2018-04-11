@@ -14,15 +14,17 @@
  * limitations under the License.
  */
 
-package com.andremion.hostel.data.local.database.disk
+package com.andremion.hostel.data.local.database.test
 
 import android.arch.persistence.room.Room
 import android.content.Context
 import com.andremion.hostel.data.local.database.LocalDatabase
 
-object DiskDatabase {
+object TestDatabase {
 
     fun newInstance(context: Context): LocalDatabase {
-        return Room.databaseBuilder(context, LocalDatabase::class.java, "hostel.db").build()
+        return Room.inMemoryDatabaseBuilder(context, LocalDatabase::class.java)
+                .allowMainThreadQueries()
+                .build()
     }
 }

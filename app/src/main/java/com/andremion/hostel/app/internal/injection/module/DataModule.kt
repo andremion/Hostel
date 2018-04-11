@@ -23,7 +23,6 @@ import com.andremion.hostel.data.local.PropertyLocalDataSource
 import com.andremion.hostel.data.local.dao.CityDao
 import com.andremion.hostel.data.local.dao.PropertyDao
 import com.andremion.hostel.data.local.database.LocalDatabase
-import com.andremion.hostel.data.local.database.disk.DiskDatabase
 import com.andremion.hostel.data.remote.PropertyRemoteDataSource
 import com.andremion.hostel.data.remote.api.HostelApi
 import com.andremion.hostel.data.remote.api.HostelService
@@ -51,7 +50,7 @@ internal class DataModule {
     @Provides
     @Singleton
     internal fun provideLocalDatabase(context: Context): LocalDatabase {
-        return DiskDatabase.newInstance(context)
+        return LocalDatabase.newInstance(context)
     }
 
     @Provides
