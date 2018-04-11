@@ -17,8 +17,8 @@
 package com.andremion.hostel.data.entity
 
 data class City(
-        var id: Long,
-        var name: String,
-        var image: String,
-        var country: String
+        val id: Long,
+        val name: String,
+        val image: String,
+        val country: String
 )
