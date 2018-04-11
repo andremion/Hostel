@@ -22,12 +22,12 @@ import android.arch.persistence.room.PrimaryKey
 @Entity(tableName = "Property")
 data class PropertyLocal(
         @PrimaryKey var id: Long,
-        var city: Long,
-        var name: String,
-        var featured: Boolean,
-        var images: List<String>,
-        var overview: String,
-        var facilities: List<String>,
-        var price: Double,
-        var rating: Float?
+        val city: Long,
+        val name: String,
+        val featured: Boolean,
+        val images: List<String>,
+        val overview: String,
+        val facilities: List<String>,
+        val price: Double,
+        val rating: Float?
 )

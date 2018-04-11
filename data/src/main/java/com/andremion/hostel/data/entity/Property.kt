@@ -17,13 +17,13 @@
 package com.andremion.hostel.data.entity
 
 data class Property(
-        var id: Long,
-        var city: Long,
-        var name: String,
-        var featured: Boolean,
-        var image: String,
-        var overview: String,
-        var facilities: String,
-        var price: String,
-        var rating: String
+        val id: Long,
+        val city: Long,
+        val name: String,
+        val featured: Boolean,
+        val image: String,
+        val overview: String,
+        val facilities: String,
+        val price: String,
+        val rating: String
 )

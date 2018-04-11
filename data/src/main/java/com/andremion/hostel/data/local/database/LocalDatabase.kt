@@ -17,8 +17,10 @@
 package com.andremion.hostel.data.local.database
 
 import android.arch.persistence.room.Database
+import android.arch.persistence.room.Room
 import android.arch.persistence.room.RoomDatabase
 import android.arch.persistence.room.TypeConverters
+import android.content.Context
 import com.andremion.hostel.data.local.dao.CityDao
 import com.andremion.hostel.data.local.dao.PropertyDao
 import com.andremion.hostel.data.local.model.CityLocal
@@ -31,4 +33,10 @@ abstract class LocalDatabase : RoomDatabase() {
     abstract fun cityDao(): CityDao
 
     abstract fun propertyDao(): PropertyDao
+
+    companion object {
+        fun newInstance(context: Context): LocalDatabase {
+            return Room.databaseBuilder(context, LocalDatabase::class.java, "hostel.db").build()
+        }
+    }
 }
